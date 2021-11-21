@@ -2,6 +2,17 @@
 #include <stdlib.h>
 
 int main(void) {
-	puts("Hello World!!!"); /* prints Hello World!!! */
-	return EXIT_SUCCESS;
+	// step 1: initialize threads
+
+
+	// step 2: attach interrupts
+
+
+	//step 3: start timers
+
+
+	//step 4: loop until heat death of the universe
+	for(;;);
+
+	return EXIT_FAILURE;	//this should never happen
 }

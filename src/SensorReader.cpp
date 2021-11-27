@@ -79,8 +79,6 @@ void SensorReader::read_value() {
 	file.seekg(time * line_width);	//put file cursor at relevant value
 	file >> val;
 
-	std::cout << "Read value: " << val << std::endl;
-
 	//put the value in shared memory
 	shared_value->tex.lock();
 	shared_value->value = val;

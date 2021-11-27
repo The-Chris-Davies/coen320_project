@@ -3,16 +3,37 @@
 
 using namespace std;
 
+//sensor reader handlers
+SensorReader* readers[5];
+
 int main() {
 
-	string name("test.txt");
 	// step 1: initialize sensor readers
-	SensorReader r1(name, 4, 2);
-	//step 3: start timers
 
-	r1.set_timer_period(1);
+	//the names of each data file
+	string names [5] = {string("currentGear.txt"),
+						string("engineCoolantTemperature.txt"),
+						string("engineSpeed.txt"),
+						string("fuelConsumption.txt"),
+						string("vehicleSpeed.txt")
+					   };
+	//the length of each entry in the file (including newlines)
+	int sizes[5] = { 3, 3, 4, 7, 3};
+	//create readers
+	for(int i = 0; i < 5; i++) {
+		readers[i] = new SensorReader(names[i], sizes[i], 4);
+	}
 
-	sleep(1);
+	//step 2: start timers
+	for(auto& reader: readers) {
+			reader->set_timer_period(5);
+		}
+
+	//create a test reader to demonstrate shared memory access
+	string name("test.txt");
+	SensorReader test_reader(name, 4, 2);
+	test_reader.set_timer_period(1);
+
 	//test shared memory
 	//open
 	int shm_fd = shm_open(name.c_str(), O_RDWR, 0666);

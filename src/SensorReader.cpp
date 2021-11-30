@@ -47,6 +47,15 @@ SensorReader::SensorReader(std::string filename, int line_width, int priority) {
 			perror("Could not create timer");
 			exit(1);
 	}
+
+
+	//get the first value in the file
+	float val;
+	file >> val;
+	//put the value in shared memory
+	shared_value->tex.lock();
+	shared_value->value = val;
+	shared_value->tex.unlock();
 }
 
 SensorReader::~SensorReader() {
@@ -61,6 +70,7 @@ SensorReader::~SensorReader() {
 
 	//close the shared memory
 	close(shm_fd);
+
 }
 void SensorReader::sensor_reader_trampoline(sigval sigsrp) {
 	//trampoline function called by the timer in new thread

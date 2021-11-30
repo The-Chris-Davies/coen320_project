@@ -10,7 +10,6 @@ SensorReader* readers[5];
 
 
 int main() {
-
 	// step 1: initialize sensor readers
 
 	//the names of each data file
@@ -35,7 +34,12 @@ int main() {
 	Driver overdrive;// initialize a driver
 	overdrive.set_timer_period(1);// set the period to 1
 	
-	while(true){}
+	while(true){
+		int number, newper;
+		cin >> number >> newper;
+		readers[number] -> set_timer_period(newper);
+		cout << "set period for " << names[number] << " to " << newper << endl;
+	}
 
 	return EXIT_FAILURE;	//this should never happen
 }

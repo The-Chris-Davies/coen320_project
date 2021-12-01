@@ -73,13 +73,18 @@ void Driver::write_value() {
 		shared_value[i]->tex.unlock();
 	}
 
+	stdout_lock.lock();
+	//put space between previous output and this one
+	std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+
 	std::cout << "Time: " << time << std::endl;
-	std::cout << "\tCurrent Gear: " 			<< values[0]
-		 << "\n\tEngine Coolant Temperature: " 	<< values[1]
-		 << "\n\tEngine Speed: " 				<< values[2]
-		 << "\n\tFuel Consumption: " 			<< values[3]
-		 << "\n\tVehicle Speed: "				<< values[4]
-		 << std::endl;
+	std::cout << "\t0: Current Gear: " 			<< values[0]
+		 << "\n\t1: Engine Coolant Temperature: " 	<< values[1]
+		 << "\n\t2: Engine Speed: " 				<< values[2]
+		 << "\n\t3: Fuel Consumption: " 			<< values[3]
+		 << "\n\t4: Vehicle Speed: "				<< values[4]
+		 << "\nEnter sensor number, followed by the period to set" << std::endl;
+	stdout_lock.unlock();
 }
 
 int Driver::set_timer_period(int period) {
@@ -93,4 +98,11 @@ int Driver::set_timer_period(int period) {
 	timer_value.it_interval.tv_sec = period;
 	timer_value.it_interval.tv_nsec = 0;
 	return timer_settime(timer, 0, &timer_value, NULL);
+}
+
+void Driver::get_output_lock() {
+	stdout_lock.lock();
+}
+void Driver::free_output_lock() {
+	stdout_lock.unlock();
 }

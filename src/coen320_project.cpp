@@ -38,7 +38,9 @@ int main() {
 		int number, newper;
 		cin >> number >> newper;
 		readers[number] -> set_timer_period(newper);
+		overdrive.get_output_lock();
 		cout << "set period for " << names[number] << " to " << newper << endl;
+		overdrive.free_output_lock();
 	}
 
 	return EXIT_FAILURE;	//this should never happen

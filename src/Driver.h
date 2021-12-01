@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <sys/neutrino.h>
+#include <mutex>
 
 #define SHM_SIZE sizeof(struct protected_memory)
 
@@ -32,16 +33,23 @@ class Driver {
 	struct protected_memory* shared_value[5];	//shared memory ptr
 
 	timer_t timer;		//timer ID
-	int chan = 0;			//channel ID (for trigger via PULSE)
+	int chan = 0;		//channel ID (for trigger via PULSE)
+
+	std::mutex stdout_lock;	//mutex for locking the console output
 
 private:
 	void write_value();  // diplay the 5 sensor values onto the console
 
 	bool create_thread();
 	static void write_value_trampoline(sigval);
+
 public:
 	Driver(int priority = 127);
 	virtual ~Driver();
 	int set_timer_period(int);
+
+	//used to block the driver from writing to stdout (if some other thread wants to)
+	void get_output_lock();
+	void free_output_lock();
 };
 #endif /* DRIVER_H_ */
